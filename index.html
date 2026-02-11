@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaHR ERP</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>PharmaHR ERP</h1>
+    <p>Comprehensive HR management for pharmacy operations</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Dashboard</h2>
+      <div id="metrics" class="grid"></div>
+    </section>
+
+    <section class="card">
+      <h2>Employees</h2>
+      <form id="employeeForm" class="form-grid">
+        <input name="name" placeholder="Full Name" required />
+        <input name="role" placeholder="Role (e.g., Pharmacist)" required />
+        <input name="license" placeholder="License Number (if required)" />
+        <input name="department" value="Pharmacy" required />
+        <input name="hireDate" type="date" required />
+        <select name="status" required>
+          <option value="Active">Active</option>
+          <option value="Probation">Probation</option>
+          <option value="On Leave">On Leave</option>
+          <option value="Suspended">Suspended</option>
+        </select>
+        <button type="submit">Add Employee</button>
+      </form>
+      <table>
+        <thead><tr><th>Name</th><th>Role</th><th>License</th><th>Hire Date</th><th>Status</th></tr></thead>
+        <tbody id="employeesTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Recruitment Pipeline</h2>
+      <form id="recruitForm" class="form-grid">
+        <input name="candidate" placeholder="Candidate Name" required />
+        <input name="position" placeholder="Position" required />
+        <select name="stage" required>
+          <option value="Applied">Applied</option>
+          <option value="Screening">Screening</option>
+          <option value="Interview">Interview</option>
+          <option value="Offer">Offer</option>
+          <option value="Hired">Hired</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <button type="submit">Add Candidate</button>
+      </form>
+      <table>
+        <thead><tr><th>Candidate</th><th>Position</th><th>Stage</th></tr></thead>
+        <tbody id="recruitTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Shift Scheduling</h2>
+      <form id="shiftForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="date" type="date" required />
+        <select name="shift" required>
+          <option value="Morning">Morning</option>
+          <option value="Evening">Evening</option>
+          <option value="Night">Night</option>
+          <option value="On-Call">On-Call</option>
+        </select>
+        <input name="location" placeholder="Branch / Dispensing Unit" required />
+        <button type="submit">Assign Shift</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Date</th><th>Shift</th><th>Location</th></tr></thead>
+        <tbody id="shiftTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Attendance & Overtime</h2>
+      <form id="attendanceForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="date" type="date" required />
+        <input name="hoursWorked" type="number" min="0" step="0.5" placeholder="Hours Worked" required />
+        <input name="overtime" type="number" min="0" step="0.5" placeholder="Overtime Hours" required />
+        <button type="submit">Log Attendance</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Date</th><th>Hours</th><th>Overtime</th></tr></thead>
+        <tbody id="attendanceTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Leave Management</h2>
+      <form id="leaveForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <select name="type" required>
+          <option value="Annual">Annual</option>
+          <option value="Sick">Sick</option>
+          <option value="Maternity/Paternity">Maternity/Paternity</option>
+          <option value="Emergency">Emergency</option>
+          <option value="Unpaid">Unpaid</option>
+        </select>
+        <input name="start" type="date" required />
+        <input name="end" type="date" required />
+        <select name="status" required>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <button type="submit">Submit Leave</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+        <tbody id="leaveTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Payroll</h2>
+      <form id="payrollForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="month" type="month" required />
+        <input name="basic" type="number" min="0" placeholder="Basic Salary" required />
+        <input name="allowance" type="number" min="0" placeholder="Allowances" required />
+        <input name="deductions" type="number" min="0" placeholder="Deductions" required />
+        <button type="submit">Run Payroll</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Month</th><th>Gross</th><th>Deductions</th><th>Net</th></tr></thead>
+        <tbody id="payrollTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Compliance, Training & Certification</h2>
+      <form id="complianceForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="module" placeholder="Training / Certification" required />
+        <input name="expiry" type="date" required />
+        <select name="status" required>
+          <option value="Valid">Valid</option>
+          <option value="Expiring Soon">Expiring Soon</option>
+          <option value="Expired">Expired</option>
+        </select>
+        <button type="submit">Add Compliance Record</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Module</th><th>Expiry</th><th>Status</th></tr></thead>
+        <tbody id="complianceTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Incidents & Disciplinary Cases</h2>
+      <form id="incidentForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="date" type="date" required />
+        <input name="incident" placeholder="Incident / Violation" required />
+        <select name="resolution" required>
+          <option value="Open">Open</option>
+          <option value="Under Review">Under Review</option>
+          <option value="Warning Issued">Warning Issued</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+        <button type="submit">Log Incident</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th></tr></thead>
+        <tbody id="incidentTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card">
+      <h2>Performance Reviews</h2>
+      <form id="performanceForm" class="form-grid">
+        <input name="employee" placeholder="Employee Name" required />
+        <input name="reviewDate" type="date" required />
+        <input name="score" type="number" min="1" max="5" placeholder="Score (1-5)" required />
+        <input name="notes" placeholder="Manager Notes" required />
+        <button type="submit">Record Review</button>
+      </form>
+      <table>
+        <thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th></tr></thead>
+        <tbody id="performanceTable"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>PharmaHR ERP Prototype • Data stored in browser local storage</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
