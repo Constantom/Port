@@ -1,6 +1,21 @@
 const USERS_KEY = "pharma_hr_users";
 const SESSION_KEY = "pharma_hr_session";
 
+function normalizeRole(role) {
+  const value = String(role || "").trim().toLowerCase();
+  if (["admin", "administrator", "hr manager"].includes(value)) return "admin";
+  if (["hr personnel", "hr officer", "hr"].includes(value)) return "hr personnel";
+  if (value === "supervisor") return "supervisor";
+  return "hr personnel";
+}
+
+function prettyRole(role) {
+  const normalized = normalizeRole(role);
+  if (normalized === "admin") return "Admin";
+  if (normalized === "supervisor") return "Supervisor";
+  return "HR Personnel";
+}
+
 function getUsers() {
   return JSON.parse(localStorage.getItem(USERS_KEY) || "[]");
 }
@@ -31,7 +46,7 @@ function requireAuth() {
 
   const sessionUserLabel = document.getElementById("sessionUser");
   if (sessionUserLabel) {
-    sessionUserLabel.textContent = `${sessionUser.name} (${sessionUser.role})`;
+    sessionUserLabel.textContent = `${sessionUser.name} (${prettyRole(sessionUser.role)})`;
   }
 
   const logoutBtn = document.getElementById("logoutBtn");
@@ -63,7 +78,7 @@ function bindRegister() {
       name: data.name,
       email: data.email,
       password: data.password,
-      role: data.role
+      role: normalizeRole(data.role)
     });
 
     saveUsers(users);
@@ -99,7 +114,7 @@ function bindLogin() {
     const sessionUser = {
       name: foundUser.name,
       email: foundUser.email,
-      role: foundUser.role
+      role: normalizeRole(foundUser.role)
     };
     setSessionUser(sessionUser);
     message.textContent = "Login successful. Redirecting...";

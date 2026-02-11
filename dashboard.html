@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PharmaHR ERP • Dashboard</title>
+  <title>PharmaHR ERP • Workspace</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -11,24 +11,60 @@
     <a class="brand" href="dashboard.html">PharmaHR ERP</a>
     <div class="nav-links">
       <span id="sessionUser" class="session-user"></span>
-      <a href="dashboard.html">Dashboard</a>
       <button id="logoutBtn" class="btn-link" type="button">Logout</button>
     </div>
   </nav>
 
   <header>
-    <h1>PharmaHR ERP</h1>
-    <p>Comprehensive HR management for pharmacy operations</p>
+    <h1>HR Operations Workspace</h1>
+    <p>Module-based navigation with role-based access control</p>
   </header>
 
+  <div id="moduleNav" class="module-nav card">
+    <button class="module-tab" data-module="dashboard" type="button">Dashboard</button>
+    <button class="module-tab" data-module="approvals" type="button">Approvals</button>
+    <button class="module-tab" data-module="employees" type="button">Employees</button>
+    <button class="module-tab" data-module="recruitment" type="button">Recruitment Pipeline</button>
+    <button class="module-tab" data-module="shifts" type="button">Shift Scheduling</button>
+    <button class="module-tab" data-module="attendance" type="button">Attendance & Overtime</button>
+    <button class="module-tab" data-module="leaves" type="button">Leave Management</button>
+    <button class="module-tab" data-module="payroll" type="button">Payroll</button>
+    <button class="module-tab" data-module="compliance" type="button">Compliance Training & Certification</button>
+    <button class="module-tab" data-module="incidents" type="button">Incidents & Disciplinary Cases</button>
+    <button class="module-tab" data-module="performance" type="button">Performance Review</button>
+  </div>
+
   <main>
-    <section class="card">
-      <h2>Dashboard</h2>
+    <section class="card module-view" data-module="dashboard">
+      <div class="section-head">
+        <h2>Executive Dashboard (Admin Only)</h2>
+        <button class="secondary-btn" data-load="dashboard" type="button">Load Data</button>
+      </div>
       <div id="metrics" class="grid"></div>
     </section>
 
-    <section class="card">
-      <h2>Employees</h2>
+    <section class="card module-view" data-module="approvals">
+      <div class="section-head">
+        <h2>Approval Center (Admin Only)</h2>
+        <button class="secondary-btn" data-load="approvals" type="button">Load Data</button>
+      </div>
+      <h3>Pending Leave Approvals</h3>
+      <table>
+        <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="approvalsLeaveTable"></tbody>
+      </table>
+      <h3>Open Incident Cases</h3>
+      <table>
+        <thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th><th>Actions</th></tr></thead>
+        <tbody id="approvalsIncidentTable"></tbody>
+      </table>
+    </section>
+
+    <section class="card module-view" data-module="employees">
+      <div class="section-head">
+        <h2>Employees</h2>
+        <button class="secondary-btn" data-load="employees" type="button">Load Data</button>
+      </div>
       <form id="employeeForm" class="form-grid">
         <input name="name" placeholder="Full Name" required />
         <input name="role" placeholder="Role (e.g., Pharmacist)" required />
@@ -44,13 +80,16 @@
         <button type="submit">Add Employee</button>
       </form>
       <table>
-        <thead><tr><th>Name</th><th>Role</th><th>License</th><th>Hire Date</th><th>Status</th></tr></thead>
+        <thead><tr><th>Name</th><th>Role</th><th>License</th><th>Hire Date</th><th>Status</th><th>Delete</th></tr></thead>
         <tbody id="employeesTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Recruitment Pipeline</h2>
+    <section class="card module-view" data-module="recruitment">
+      <div class="section-head">
+        <h2>Recruitment Pipeline</h2>
+        <button class="secondary-btn" data-load="recruitment" type="button">Load Data</button>
+      </div>
       <form id="recruitForm" class="form-grid">
         <input name="candidate" placeholder="Candidate Name" required />
         <input name="position" placeholder="Position" required />
@@ -65,13 +104,16 @@
         <button type="submit">Add Candidate</button>
       </form>
       <table>
-        <thead><tr><th>Candidate</th><th>Position</th><th>Stage</th></tr></thead>
+        <thead><tr><th>Candidate</th><th>Position</th><th>Stage</th><th>Delete</th></tr></thead>
         <tbody id="recruitTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Shift Scheduling</h2>
+    <section class="card module-view" data-module="shifts">
+      <div class="section-head">
+        <h2>Shift Scheduling</h2>
+        <button class="secondary-btn" data-load="shifts" type="button">Load Data</button>
+      </div>
       <form id="shiftForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="date" type="date" required />
@@ -85,13 +127,16 @@
         <button type="submit">Assign Shift</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Date</th><th>Shift</th><th>Location</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Date</th><th>Shift</th><th>Location</th><th>Delete</th></tr></thead>
         <tbody id="shiftTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Attendance & Overtime</h2>
+    <section class="card module-view" data-module="attendance">
+      <div class="section-head">
+        <h2>Attendance & Overtime</h2>
+        <button class="secondary-btn" data-load="attendance" type="button">Load Data</button>
+      </div>
       <form id="attendanceForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="date" type="date" required />
@@ -100,13 +145,16 @@
         <button type="submit">Log Attendance</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Date</th><th>Hours</th><th>Overtime</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Date</th><th>Hours</th><th>Overtime</th><th>Delete</th></tr></thead>
         <tbody id="attendanceTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Leave Management</h2>
+    <section class="card module-view" data-module="leaves">
+      <div class="section-head">
+        <h2>Leave Management</h2>
+        <button class="secondary-btn" data-load="leaves" type="button">Load Data</button>
+      </div>
       <form id="leaveForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <select name="type" required>
@@ -126,13 +174,16 @@
         <button type="submit">Submit Leave</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th><th>Delete</th></tr></thead>
         <tbody id="leaveTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Payroll</h2>
+    <section class="card module-view" data-module="payroll">
+      <div class="section-head">
+        <h2>Payroll</h2>
+        <button class="secondary-btn" data-load="payroll" type="button">Load Data</button>
+      </div>
       <form id="payrollForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="month" type="month" required />
@@ -142,13 +193,16 @@
         <button type="submit">Run Payroll</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Month</th><th>Gross</th><th>Deductions</th><th>Net</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Month</th><th>Gross</th><th>Deductions</th><th>Net</th><th>Delete</th></tr></thead>
         <tbody id="payrollTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Compliance, Training & Certification</h2>
+    <section class="card module-view" data-module="compliance">
+      <div class="section-head">
+        <h2>Compliance, Training & Certification</h2>
+        <button class="secondary-btn" data-load="compliance" type="button">Load Data</button>
+      </div>
       <form id="complianceForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="module" placeholder="Training / Certification" required />
@@ -161,13 +215,16 @@
         <button type="submit">Add Compliance Record</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Module</th><th>Expiry</th><th>Status</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Module</th><th>Expiry</th><th>Status</th><th>Delete</th></tr></thead>
         <tbody id="complianceTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Incidents & Disciplinary Cases</h2>
+    <section class="card module-view" data-module="incidents">
+      <div class="section-head">
+        <h2>Incidents & Disciplinary Cases</h2>
+        <button class="secondary-btn" data-load="incidents" type="button">Load Data</button>
+      </div>
       <form id="incidentForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="date" type="date" required />
@@ -181,13 +238,16 @@
         <button type="submit">Log Incident</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th><th>Delete</th></tr></thead>
         <tbody id="incidentTable"></tbody>
       </table>
     </section>
 
-    <section class="card">
-      <h2>Performance Reviews</h2>
+    <section class="card module-view" data-module="performance">
+      <div class="section-head">
+        <h2>Performance Reviews</h2>
+        <button class="secondary-btn" data-load="performance" type="button">Load Data</button>
+      </div>
       <form id="performanceForm" class="form-grid">
         <input name="employee" placeholder="Employee Name" required />
         <input name="reviewDate" type="date" required />
@@ -196,14 +256,14 @@
         <button type="submit">Record Review</button>
       </form>
       <table>
-        <thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th></tr></thead>
+        <thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th><th>Delete</th></tr></thead>
         <tbody id="performanceTable"></tbody>
       </table>
     </section>
   </main>
 
   <footer>
-    <p>PharmaHR ERP Prototype • Data stored in browser local storage</p>
+    <p>PharmaHR ERP Prototype • Local role-based prototype</p>
   </footer>
 
   <script src="auth.js"></script>

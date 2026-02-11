@@ -1,32 +1,45 @@
 # PharmaHR ERP (HR-Only for Pharmacy)
 
-This project is a browser-based ERP focused on HR operations in a pharmacy setting, now split into dedicated pages for landing, registration, login, and HR dashboard.
+This project is a browser-based ERP focused on HR operations in a pharmacy setting, split into dedicated pages for landing, registration, login, and a role-aware HR workspace.
 
 ## Page Structure
 
 - `index.html`: Landing page for visitors without accounts.
 - `register.html`: Account registration page.
 - `login.html`: Authentication page.
-- `dashboard.html`: Protected HR ERP dashboard.
+- `dashboard.html`: Protected HR workspace with module routing.
 
-## Covered HR Functionalities
+## Module Navigation (JavaScript Routing)
 
-- Employee master records (roles, statuses, licensing)
-- Recruitment and candidate pipeline
-- Shift scheduling by branch/dispensing unit
-- Attendance and overtime tracking
-- Leave request management and approvals
-- Payroll calculation (gross, deductions, net)
-- Compliance/training/certification tracking
-- Incident and disciplinary case logs
-- Performance reviews and scoring
-- Dashboard KPIs for HR managers
+Inside `dashboard.html`, each HR function has a dedicated interface and is routed client-side via module tabs:
+
+- Dashboard (admin only)
+- Approval Center (admin only)
+- Employees
+- Recruitment Pipeline
+- Shift Scheduling
+- Attendance & Overtime
+- Leave Management
+- Payroll
+- Compliance, Training & Certification
+- Incidents & Disciplinary Cases
+- Performance Reviews
+
+Each module includes:
+
+- **Add** capability (form submit)
+- **Load Data** button (reloads from storage)
+- **Delete** buttons (remove existing records)
 
 ## Access Control Prototype
 
 - Accounts are stored in `localStorage` (`pharma_hr_users`).
 - Login creates a session in `localStorage` (`pharma_hr_session`).
 - `dashboard.html` redirects to `login.html` if no session exists.
+- Roles:
+  - **Admin**: Full access to all modules, including Dashboard and Approval Center.
+  - **HR Personnel**: Access to HR operational modules (no Dashboard, no Approval Center).
+  - **Supervisor**: Access to supervision-focused modules (no Dashboard, no Approval Center).
 - Logout clears the session.
 
 ## Run
