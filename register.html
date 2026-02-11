@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaHR ERP • Register</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <a class="brand" href="index.html">PharmaHR ERP</a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
+  </nav>
+
+  <main class="container auth-wrap">
+    <section class="card auth-card">
+      <h1>Register</h1>
+      <p>Create an HR account for pharmacy management.</p>
+      <form id="registerForm" class="form-grid single-column">
+        <input name="name" placeholder="Full Name" required />
+        <input name="email" type="email" placeholder="Email" required />
+        <input name="password" type="password" placeholder="Password" minlength="6" required />
+        <select name="role" required>
+          <option value="HR Manager">HR Manager</option>
+          <option value="HR Officer">HR Officer</option>
+          <option value="Supervisor">Supervisor</option>
+        </select>
+        <button type="submit">Create Account</button>
+      </form>
+      <p id="registerMessage" class="message"></p>
+    </section>
+  </main>
+
+  <script src="auth.js"></script>
+</body>
+</html>

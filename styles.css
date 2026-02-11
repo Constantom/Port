@@ -1,0 +1,222 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f6fb;
+  --card: #ffffff;
+  --primary: #2d5baf;
+  --primary-dark: #1f4d9e;
+  --text: #1c2333;
+  --border: #dbe1ef;
+  --success: #157347;
+  --error: #b42318;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Inter, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  text-decoration: none;
+  color: var(--primary-dark);
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav-links a,
+.btn-link {
+  text-decoration: none;
+  color: var(--primary-dark);
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.session-user {
+  color: #506080;
+  font-size: 0.9rem;
+}
+
+header {
+  background: linear-gradient(120deg, #1f4d9e, #2f7de1);
+  color: white;
+  padding: 24px;
+  text-align: center;
+}
+
+main,
+.container {
+  width: min(1200px, 95%);
+  margin: 20px auto 60px;
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 4px 14px rgba(26, 48, 87, 0.06);
+}
+
+.hero h1 {
+  margin: 0 0 10px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  border-radius: 8px;
+  padding: 9px 14px;
+  text-decoration: none;
+}
+
+.btn.secondary {
+  background: #5b6781;
+}
+
+.feature-list {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.9;
+}
+
+.auth-wrap {
+  min-height: 72vh;
+  align-content: center;
+}
+
+.auth-card {
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.single-column {
+  grid-template-columns: 1fr;
+}
+
+.message {
+  margin: 10px 0 0;
+  font-weight: 600;
+}
+
+.message.success {
+  color: var(--success);
+}
+
+.message.error {
+  color: var(--error);
+}
+
+h2 {
+  margin-top: 0;
+  color: #1b3f80;
+}
+
+.form-grid {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  margin-bottom: 12px;
+}
+
+input,
+select,
+button {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover,
+.btn:hover {
+  filter: brightness(1.05);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background: #eef3ff;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.metric {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8faff;
+}
+
+.metric h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #385fa3;
+}
+
+.metric p {
+  margin: 4px 0 0;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+footer {
+  text-align: center;
+  padding: 16px;
+  color: #5b6781;
+}
