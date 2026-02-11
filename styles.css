@@ -92,6 +92,18 @@ body {
   gap: 12px;
 }
 
+
+.nav-scroll {
+  overflow-x: auto;
+  max-width: 60vw;
+  scrollbar-width: thin;
+}
+
+.nav-links a.active {
+  background: linear-gradient(120deg, var(--primary), #4d7eec);
+  color: #fff;
+}
+
 .profile-pill {
   display: flex;
   align-items: center;

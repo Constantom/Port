@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PharmaHR ERP • Dashboard</title>
+  <title>PharmaHR ERP • Performance</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-page="dashboard">
+<body data-page="performance">
   <nav class="navbar glass">
     <a class="brand" href="dashboard.html">PharmaHR ERP</a>
     <div class="nav-links nav-scroll">
-        <a href="dashboard.html" data-module-link="dashboard" class="active">Dashboard</a>
+        <a href="dashboard.html" data-module-link="dashboard" class="">Dashboard</a>
         <a href="approvals.html" data-module-link="approvals" class="">Approvals</a>
         <a href="employees.html" data-module-link="employees" class="">Employees</a>
         <a href="recruitment.html" data-module-link="recruitment" class="">Recruitment</a>
@@ -20,7 +20,7 @@
         <a href="payroll.html" data-module-link="payroll" class="">Payroll</a>
         <a href="compliance.html" data-module-link="compliance" class="">Compliance</a>
         <a href="incidents.html" data-module-link="incidents" class="">Incidents</a>
-        <a href="performance.html" data-module-link="performance" class="">Performance</a>
+        <a href="performance.html" data-module-link="performance" class="active">Performance</a>
         <a href="settings.html" data-module-link="settings" class="">Settings</a>
     </div>
     <div class="nav-links">
@@ -32,17 +32,9 @@
     </div>
   </nav>
 
-  <main>
-    <section class="card glass fade-in">
-      <div class="section-head"><h2>Executive Dashboard (Admin Only)</h2><button class="secondary-btn" data-load="dashboard" type="button">Load Data</button></div>
-      <div id="metrics" class="grid"></div>
-      <div class="chart-grid">
-        <article class="chart-card glass"><h3>Recruitment Pipeline by Stage</h3><canvas id="pipelineChart" width="520" height="260"></canvas></article>
-        <article class="chart-card glass"><h3>Monthly Payroll Trend</h3><canvas id="payrollTrendChart" width="520" height="260"></canvas></article>
-        <article class="chart-card glass"><h3>Leave Status Overview</h3><canvas id="leaveDonutChart" width="520" height="260"></canvas></article>
-      </div>
-    </section>
-  </main>
+  <main><section class="card glass fade-in"><div class="section-head"><h2>Performance Reviews</h2><button class="secondary-btn" data-load="performance" type="button">Load Data</button></div>
+  <form id="performanceForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="reviewDate" type="date" required /><input name="score" type="number" min="1" max="5" placeholder="Score" required /><input name="notes" placeholder="Notes" required /><button type="submit">Record Review</button></form>
+  <table><thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th><th>Delete</th></tr></thead><tbody id="performanceTable"></tbody></table></section></main>
   <footer><p>PharmaHR ERP Prototype • Local role-based prototype</p></footer>
   <script src="auth.js"></script>
   <script src="app.js"></script>
