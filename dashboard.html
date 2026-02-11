@@ -7,20 +7,23 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <nav class="navbar">
+  <nav class="navbar glass">
     <a class="brand" href="dashboard.html">PharmaHR ERP</a>
     <div class="nav-links">
-      <span id="sessionUser" class="session-user"></span>
+      <div class="profile-pill">
+        <img id="sessionAvatar" class="profile-avatar" src="" alt="User avatar" />
+        <span id="sessionUser" class="session-user"></span>
+      </div>
       <button id="logoutBtn" class="btn-link" type="button">Logout</button>
     </div>
   </nav>
 
-  <header>
+  <header class="glass hero-header fade-in">
     <h1>HR Operations Workspace</h1>
     <p>Module-based navigation with role-based access control</p>
   </header>
 
-  <div id="moduleNav" class="module-nav card">
+  <div id="moduleNav" class="module-nav card glass fade-in">
     <button class="module-tab" data-module="dashboard" type="button">Dashboard</button>
     <button class="module-tab" data-module="approvals" type="button">Approvals</button>
     <button class="module-tab" data-module="employees" type="button">Employees</button>
@@ -32,18 +35,33 @@
     <button class="module-tab" data-module="compliance" type="button">Compliance Training & Certification</button>
     <button class="module-tab" data-module="incidents" type="button">Incidents & Disciplinary Cases</button>
     <button class="module-tab" data-module="performance" type="button">Performance Review</button>
+    <button class="module-tab" data-module="settings" type="button">Settings</button>
   </div>
 
   <main>
-    <section class="card module-view" data-module="dashboard">
+    <section class="card module-view fade-in" data-module="dashboard">
       <div class="section-head">
         <h2>Executive Dashboard (Admin Only)</h2>
         <button class="secondary-btn" data-load="dashboard" type="button">Load Data</button>
       </div>
       <div id="metrics" class="grid"></div>
+      <div class="chart-grid">
+        <article class="chart-card glass">
+          <h3>Recruitment Pipeline by Stage</h3>
+          <canvas id="pipelineChart" width="520" height="260"></canvas>
+        </article>
+        <article class="chart-card glass">
+          <h3>Monthly Payroll Trend</h3>
+          <canvas id="payrollTrendChart" width="520" height="260"></canvas>
+        </article>
+        <article class="chart-card glass">
+          <h3>Leave Status Overview</h3>
+          <canvas id="leaveDonutChart" width="520" height="260"></canvas>
+        </article>
+      </div>
     </section>
 
-    <section class="card module-view" data-module="approvals">
+    <section class="card module-view fade-in" data-module="approvals">
       <div class="section-head">
         <h2>Approval Center (Admin Only)</h2>
         <button class="secondary-btn" data-load="approvals" type="button">Load Data</button>
@@ -60,7 +78,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="employees">
+    <section class="card module-view fade-in" data-module="employees">
       <div class="section-head">
         <h2>Employees</h2>
         <button class="secondary-btn" data-load="employees" type="button">Load Data</button>
@@ -85,7 +103,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="recruitment">
+    <section class="card module-view fade-in" data-module="recruitment">
       <div class="section-head">
         <h2>Recruitment Pipeline</h2>
         <button class="secondary-btn" data-load="recruitment" type="button">Load Data</button>
@@ -109,7 +127,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="shifts">
+    <section class="card module-view fade-in" data-module="shifts">
       <div class="section-head">
         <h2>Shift Scheduling</h2>
         <button class="secondary-btn" data-load="shifts" type="button">Load Data</button>
@@ -132,7 +150,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="attendance">
+    <section class="card module-view fade-in" data-module="attendance">
       <div class="section-head">
         <h2>Attendance & Overtime</h2>
         <button class="secondary-btn" data-load="attendance" type="button">Load Data</button>
@@ -150,7 +168,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="leaves">
+    <section class="card module-view fade-in" data-module="leaves">
       <div class="section-head">
         <h2>Leave Management</h2>
         <button class="secondary-btn" data-load="leaves" type="button">Load Data</button>
@@ -179,7 +197,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="payroll">
+    <section class="card module-view fade-in" data-module="payroll">
       <div class="section-head">
         <h2>Payroll</h2>
         <button class="secondary-btn" data-load="payroll" type="button">Load Data</button>
@@ -198,7 +216,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="compliance">
+    <section class="card module-view fade-in" data-module="compliance">
       <div class="section-head">
         <h2>Compliance, Training & Certification</h2>
         <button class="secondary-btn" data-load="compliance" type="button">Load Data</button>
@@ -220,7 +238,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="incidents">
+    <section class="card module-view fade-in" data-module="incidents">
       <div class="section-head">
         <h2>Incidents & Disciplinary Cases</h2>
         <button class="secondary-btn" data-load="incidents" type="button">Load Data</button>
@@ -243,7 +261,7 @@
       </table>
     </section>
 
-    <section class="card module-view" data-module="performance">
+    <section class="card module-view fade-in" data-module="performance">
       <div class="section-head">
         <h2>Performance Reviews</h2>
         <button class="secondary-btn" data-load="performance" type="button">Load Data</button>
@@ -259,6 +277,26 @@
         <thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th><th>Delete</th></tr></thead>
         <tbody id="performanceTable"></tbody>
       </table>
+    </section>
+
+    <section class="card module-view fade-in" data-module="settings">
+      <div class="section-head">
+        <h2>My Settings</h2>
+        <button class="secondary-btn" data-load="settings" type="button">Load Data</button>
+      </div>
+      <form id="settingsForm" class="form-grid">
+        <select name="theme" id="themeSelect" required>
+          <option value="light">Light Theme</option>
+          <option value="dark">Dark Theme</option>
+        </select>
+        <input type="file" id="avatarInput" accept="image/*" />
+        <button type="submit">Save Settings</button>
+      </form>
+      <div class="settings-preview">
+        <img id="settingsAvatarPreview" class="profile-avatar large" src="" alt="Avatar preview" />
+        <p>Upload your profile picture and choose your preferred theme.</p>
+      </div>
+      <p id="settingsMessage" class="message"></p>
     </section>
   </main>
 

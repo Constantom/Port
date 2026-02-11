@@ -1,5 +1,6 @@
 const USERS_KEY = "pharma_hr_users";
 const SESSION_KEY = "pharma_hr_session";
+const PREFS_KEY = "pharma_hr_user_prefs";
 
 function normalizeRole(role) {
   const value = String(role || "").trim().toLowerCase();
@@ -36,6 +37,18 @@ function clearSessionUser() {
   localStorage.removeItem(SESSION_KEY);
 }
 
+function getUserPrefs(email) {
+  const map = JSON.parse(localStorage.getItem(PREFS_KEY) || "{}");
+  return map[email] || { theme: "light", avatar: "" };
+}
+
+function applyThemeFromSession() {
+  const session = getSessionUser();
+  if (!session?.email) return;
+  const prefs = getUserPrefs(session.email);
+  document.body.classList.toggle("dark-theme", prefs.theme === "dark");
+}
+
 function requireAuth() {
   if (!window.location.pathname.endsWith("dashboard.html")) return;
   const sessionUser = getSessionUser();
@@ -47,6 +60,12 @@ function requireAuth() {
   const sessionUserLabel = document.getElementById("sessionUser");
   if (sessionUserLabel) {
     sessionUserLabel.textContent = `${sessionUser.name} (${prettyRole(sessionUser.role)})`;
+  }
+
+  const sessionAvatar = document.getElementById("sessionAvatar");
+  if (sessionAvatar) {
+    const prefs = getUserPrefs(sessionUser.email);
+    sessionAvatar.src = prefs.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(sessionUser.name)}&background=1f4aa9&color=fff`;
   }
 
   const logoutBtn = document.getElementById("logoutBtn");
@@ -111,12 +130,12 @@ function bindLogin() {
       return;
     }
 
-    const sessionUser = {
+    setSessionUser({
       name: foundUser.name,
       email: foundUser.email,
       role: normalizeRole(foundUser.role)
-    };
-    setSessionUser(sessionUser);
+    });
+
     message.textContent = "Login successful. Redirecting...";
     message.className = "message success";
     setTimeout(() => {
@@ -125,6 +144,7 @@ function bindLogin() {
   });
 }
 
+applyThemeFromSession();
 requireAuth();
 bindRegister();
 bindLogin();
