@@ -1,1 +1,39 @@
-<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=dashboard.html#settings"><title>Redirecting...</title></head><body>Redirecting to <a href="dashboard.html#settings">dashboard</a>.</body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaHR ERP • Settings</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="settings">
+  <nav class="navbar glass">
+    <a class="brand" href="dashboard.html">PharmaHR ERP</a>
+    <div class="nav-links nav-scroll">
+      <a href="dashboard.html" data-module-link="dashboard" class="">Dashboard</a>
+      <a href="approvals.html" data-module-link="approvals" class="">Approvals</a>
+      <a href="employees.html" data-module-link="employees" class="">Employees</a>
+      <a href="recruitment.html" data-module-link="recruitment" class="">Recruitment</a>
+      <a href="shifts.html" data-module-link="shifts" class="">Shifts</a>
+      <a href="attendance.html" data-module-link="attendance" class="">Attendance</a>
+      <a href="leaves.html" data-module-link="leaves" class="">Leaves</a>
+      <a href="payroll.html" data-module-link="payroll" class="">Payroll</a>
+      <a href="compliance.html" data-module-link="compliance" class="">Compliance</a>
+      <a href="incidents.html" data-module-link="incidents" class="">Incidents</a>
+      <a href="performance.html" data-module-link="performance" class="">Performance</a>
+      <a href="settings.html" data-module-link="settings" class="active">Settings</a>
+    </div>
+    <div class="nav-links">
+      <div class="profile-pill">
+        <img id="sessionAvatar" class="profile-avatar" src="" alt="User avatar" />
+        <span id="sessionUser" class="session-user"></span>
+      </div>
+      <button id="logoutBtn" class="btn-link" type="button">Logout</button>
+    </div>
+  </nav>
+<main><section class="card glass fade-in"><div class="section-head"><h2>My Settings</h2><button class="secondary-btn" data-load="settings" type="button">Load Data</button></div><form id="settingsForm" class="form-grid"><select name="theme" id="themeSelect" required><option value="light">Light Theme</option><option value="dark">Dark Theme</option></select><input type="file" id="avatarInput" accept="image/*" /><button type="submit">Save Settings</button></form><div class="settings-preview"><img id="settingsAvatarPreview" class="profile-avatar large" src="" alt="Avatar preview" /><p>Upload your profile picture and choose your preferred theme.</p></div><p id="settingsMessage" class="message"></p></section></main>
+  <footer><p>PharmaHR ERP Prototype • Local role-based prototype</p></footer>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

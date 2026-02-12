@@ -1,6 +1,7 @@
 const USERS_KEY = "pharma_hr_users";
 const SESSION_KEY = "pharma_hr_session";
 const PREFS_KEY = "pharma_hr_user_prefs";
+const PROTECTED_PAGES = ["dashboard.html","approvals.html","employees.html","recruitment.html","shifts.html","attendance.html","leaves.html","payroll.html","compliance.html","incidents.html","performance.html","settings.html"];
 
 function normalizeRole(role) {
   const value = String(role || "").trim().toLowerCase();
@@ -29,7 +30,7 @@ function applyThemeFromSession() {
 
 function requireAuth() {
   const page = window.location.pathname.split("/").pop();
-  if (page !== "dashboard.html") return;
+  if (!PROTECTED_PAGES.includes(page)) return;
   if (!getSessionUser()) window.location.href = "login.html";
 }
 

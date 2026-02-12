@@ -12,20 +12,20 @@ const roleAccess = {
 };
 
 const tableConfig = {
-  employees: ["name", "role", "license", "hireDate", "status"],
-  recruitment: ["candidate", "position", "stage"],
-  shifts: ["employee", "date", "shift", "location"],
-  attendance: ["employee", "date", "hoursWorked", "overtime"],
-  leaves: ["employee", "type", "start", "end", "status"],
-  payroll: ["employee", "month", "gross", "deductions", "net"],
-  compliance: ["employee", "module", "expiry", "status"],
-  incidents: ["employee", "date", "incident", "resolution"],
-  performance: ["employee", "reviewDate", "score", "notes"]
+  employees: { tableId: "employeesTable", cols: ["name", "role", "license", "hireDate", "status"] },
+  recruitment: { tableId: "recruitTable", cols: ["candidate", "position", "stage"] },
+  shifts: { tableId: "shiftTable", cols: ["employee", "date", "shift", "location"] },
+  attendance: { tableId: "attendanceTable", cols: ["employee", "date", "hoursWorked", "overtime"] },
+  leaves: { tableId: "leaveTable", cols: ["employee", "type", "start", "end", "status"] },
+  payroll: { tableId: "payrollTable", cols: ["employee", "month", "gross", "deductions", "net"] },
+  compliance: { tableId: "complianceTable", cols: ["employee", "module", "expiry", "status"] },
+  incidents: { tableId: "incidentTable", cols: ["employee", "date", "incident", "resolution"] },
+  performance: { tableId: "performanceTable", cols: ["employee", "reviewDate", "score", "notes"] }
 };
 
 let state = loadState();
 let currentUser = null;
-let allowed = [];
+let currentPage = document.body.dataset.page;
 let pendingAvatar = "";
 
 function normalizeRole(role) {
@@ -45,52 +45,55 @@ function saveUserPrefs(email, prefs) { const map = getPrefsMap(); map[email] = {
 function currency(a) { return `$${Number(a).toFixed(2)}`; }
 function applyTheme(t) { document.body.classList.toggle("dark-theme", t === "dark"); }
 
-function setupRoleAccess() {
+function setupAccessControl() {
   currentUser = getSessionUser();
-  allowed = roleAccess[normalizeRole(currentUser?.role)] || roleAccess["hr personnel"];
+  const allowed = roleAccess[normalizeRole(currentUser?.role)] || roleAccess["hr personnel"];
 
   document.querySelectorAll("[data-module-link]").forEach((link) => {
     if (!allowed.includes(link.dataset.moduleLink)) link.remove();
   });
 
-  document.querySelectorAll(".module-view").forEach((view) => {
-    if (!allowed.includes(view.dataset.module)) view.remove();
+  if (!allowed.includes(currentPage)) {
+    window.location.href = `${allowed[0]}.html`;
+    return false;
+  }
+
+  document.querySelectorAll("[data-module-link]").forEach((link) => {
+    link.classList.toggle("active", link.dataset.moduleLink === currentPage);
   });
+  return true;
 }
 
 function updateProfileUI() {
   if (!currentUser) return;
   const prefs = getUserPrefs(currentUser.email);
-  const avatarSrc = prefs.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=1f4aa9&color=fff`;
+  const src = prefs.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=1f4aa9&color=fff`;
   const nameEl = document.getElementById("sessionUser");
   const navAvatar = document.getElementById("sessionAvatar");
   const preview = document.getElementById("settingsAvatarPreview");
   const themeSelect = document.getElementById("themeSelect");
 
   if (nameEl) nameEl.textContent = currentUser.name;
-  if (navAvatar) navAvatar.src = avatarSrc;
-  if (preview) preview.src = avatarSrc;
+  if (navAvatar) navAvatar.src = src;
+  if (preview) preview.src = src;
   if (themeSelect) themeSelect.value = prefs.theme || "light";
   applyTheme(prefs.theme || "light");
 }
 
-function showModule(module) {
-  const target = allowed.includes(module) ? module : allowed[0];
-  document.querySelectorAll(".module-view").forEach((view) => view.classList.toggle("hidden", view.dataset.module !== target));
-  document.querySelectorAll("[data-module-link]").forEach((link) => link.classList.toggle("active", link.dataset.moduleLink === target));
-  if (window.location.hash !== `#${target}`) window.location.hash = target;
-}
-
-function initRouter() {
-  const hash = window.location.hash.replace("#", "");
-  showModule(hash || allowed[0]);
-  window.addEventListener("hashchange", () => showModule(window.location.hash.replace("#", "")));
+function setupLogout() {
+  const btn = document.getElementById("logoutBtn");
+  btn?.addEventListener("click", () => {
+    localStorage.removeItem("pharma_hr_session");
+    window.location.href = "login.html";
+  });
 }
 
 function renderTable(name) {
-  const tbody = document.getElementById(`${name === 'recruitment' ? 'recruit' : name}Table`);
-  if (!tbody || !tableConfig[name]) return;
-  tbody.innerHTML = state[name].map((row, i) => `<tr>${tableConfig[name].map((k) => `<td>${row[k] ?? ""}</td>`).join("")}<td><button class="danger-btn" data-delete="${name}" data-index="${i}" type="button">Delete</button></td></tr>`).join("");
+  const cfg = tableConfig[name];
+  if (!cfg) return;
+  const tbody = document.getElementById(cfg.tableId);
+  if (!tbody) return;
+  tbody.innerHTML = state[name].map((row, i) => `<tr>${cfg.cols.map((k) => `<td>${row[k] ?? ""}</td>`).join("")}<td><button class="danger-btn" data-delete="${name}" data-index="${i}" type="button">Delete</button></td></tr>`).join("");
 }
 
 function renderMetrics() {
@@ -127,6 +130,12 @@ function renderApprovals() {
   incident.innerHTML = state.incidents.map((r, i) => r.resolution !== "Resolved" ? `<tr><td>${r.employee}</td><td>${r.date}</td><td>${r.incident}</td><td>${r.resolution}</td><td><button class="secondary-btn" data-approval="incident" data-index="${i}" data-action="Resolved" type="button">Resolve</button></td></tr>` : "").join("");
 }
 
+function renderPage() {
+  if (currentPage === "dashboard") { renderMetrics(); renderCharts(); return; }
+  if (currentPage === "approvals") { renderApprovals(); return; }
+  if (tableConfig[currentPage]) { renderTable(currentPage); }
+}
+
 function bindForms() {
   const bind = (id, collection, map = (d) => d) => {
     const form = document.getElementById(id);
@@ -137,7 +146,7 @@ function bindForms() {
       state[collection].unshift(data);
       saveState();
       form.reset();
-      renderAll();
+      renderPage();
     });
   };
 
@@ -187,17 +196,11 @@ function bindSettings() {
 }
 
 function bindButtons() {
-  const logout = document.getElementById("logoutBtn");
-  logout?.addEventListener("click", () => {
-    localStorage.removeItem("pharma_hr_session");
-    window.location.href = "login.html";
-  });
-
   document.querySelectorAll("[data-load]").forEach((btn) => {
     btn.addEventListener("click", () => {
       state = loadState();
       if (btn.dataset.load === "settings") updateProfileUI();
-      renderAll();
+      renderPage();
     });
   });
 
@@ -206,35 +209,28 @@ function bindButtons() {
     if (del) {
       state[del.dataset.delete].splice(Number(del.dataset.index), 1);
       saveState();
-      renderAll();
+      renderPage();
       return;
     }
+
     const ap = e.target.closest("[data-approval]");
     if (!ap) return;
     const i = Number(ap.dataset.index);
     if (ap.dataset.approval === "leave") state.leaves[i].status = ap.dataset.action;
     if (ap.dataset.approval === "incident") state.incidents[i].resolution = ap.dataset.action;
     saveState();
-    renderAll();
+    renderApprovals();
   });
 }
 
-function renderAll() {
-  Object.keys(tableConfig).forEach(renderTable);
-  renderMetrics();
-  renderCharts();
-  renderApprovals();
-}
-
 function init() {
-  if (!document.querySelector(".module-view")) return;
-  setupRoleAccess();
+  if (!setupAccessControl()) return;
   updateProfileUI();
-  initRouter();
+  setupLogout();
   bindForms();
   bindSettings();
   bindButtons();
-  renderAll();
+  renderPage();
 }
 
 init();
