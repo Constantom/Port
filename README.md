@@ -1,45 +1,49 @@
 # PharmaHR ERP (HR-Only for Pharmacy)
 
-This project is a browser-based ERP focused on HR operations in a pharmacy setting.
+Browser-based HR ERP prototype for pharmacy operations.
 
-## Routing Model (Multiple Independent Pages)
+## Routing Model (Independent Pages + Dedicated Navigation Hub)
 
-Each interface now has its own dedicated HTML page:
+- `modules.html` is now the dedicated **user navigation page**.
+- All interfaces remain independent pages:
+  - `dashboard.html` (admin)
+  - `approvals.html` (admin)
+  - `employees.html`
+  - `recruitment.html`
+  - `shifts.html`
+  - `attendance.html`
+  - `leaves.html`
+  - `payroll.html`
+  - `compliance.html`
+  - `incidents.html`
+  - `performance.html`
+  - `settings.html`
 
-- `dashboard.html` (admin)
-- `approvals.html` (admin)
-- `employees.html`
-- `recruitment.html`
-- `shifts.html`
-- `attendance.html`
-- `leaves.html`
-- `payroll.html`
-- `compliance.html`
-- `incidents.html`
-- `performance.html`
-- `settings.html`
+## Implemented Changes
 
-Navigation uses the top navbar links to move between pages.
-
-## Fixed Items
-
-- Dark mode now works using per-user saved preferences (`pharma_hr_user_prefs`) and is applied on all protected pages.
-- Profile picture selected in Settings updates in preview and top navbar avatar, and persists per user.
-- All interfaces are independent pages and fully functional with Add / Load / Delete flows.
+- Removed navbars from module pages and introduced a dedicated navigation page (`modules.html`).
+- Added module-card grid navigation (4-column layout) with search filter on `modules.html`.
+- Added top user identity display (name + designation + profile picture) on:
+  - modules page
+  - each module page header.
+- Settings page now focuses on theme preference only (light/dark toggle).
+- Profile picture upload moved to the dedicated modules page profile area.
+- Theme and avatar are persisted per user in `pharma_hr_user_prefs`.
+- Light/dark mode now applies correctly on all protected pages.
+- Access control enforced so each role only sees/opens allowed interfaces.
 
 ## Access Control
 
-Roles are normalized and enforced per page:
-- **Admin**: all pages (including Dashboard + Approvals)
-- **HR Personnel**: operational pages + Settings (no Dashboard/Approvals)
-- **Supervisor**: supervision pages + Settings (no Dashboard/Approvals)
+- **Admin**: all interfaces
+- **HR Personnel**: operational interfaces + settings
+- **Supervisor**: supervision interfaces + settings
 
 ## Storage Keys
 
 - HR data: `pharma_hr_erp`
-- Auth users: `pharma_hr_users`
+- Users: `pharma_hr_users`
 - Session: `pharma_hr_session`
-- User prefs (theme/avatar): `pharma_hr_user_prefs`
+- User preferences: `pharma_hr_user_prefs`
 
 ## Run
 
@@ -47,4 +51,4 @@ Roles are normalized and enforced per page:
 python3 -m http.server 8000
 ```
 
-Then open `http://localhost:8000`.
+Open: `http://localhost:8000`

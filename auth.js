@@ -1,7 +1,7 @@
 const USERS_KEY = "pharma_hr_users";
 const SESSION_KEY = "pharma_hr_session";
 const PREFS_KEY = "pharma_hr_user_prefs";
-const PROTECTED_PAGES = ["dashboard.html","approvals.html","employees.html","recruitment.html","shifts.html","attendance.html","leaves.html","payroll.html","compliance.html","incidents.html","performance.html","settings.html"];
+const PROTECTED_PAGES = ["modules.html","dashboard.html","approvals.html","employees.html","recruitment.html","shifts.html","attendance.html","leaves.html","payroll.html","compliance.html","incidents.html","performance.html","settings.html"];
 
 function normalizeRole(role) {
   const value = String(role || "").trim().toLowerCase();
@@ -72,7 +72,7 @@ function bindLogin() {
     setSessionUser({ name: user.name, email: user.email, role: normalizeRole(user.role) });
     message.textContent = "Login successful. Redirecting...";
     message.className = "message success";
-    setTimeout(() => { window.location.href = "dashboard.html"; }, 400);
+    setTimeout(() => { window.location.href = "modules.html"; }, 400);
   });
 }
 

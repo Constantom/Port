@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PharmaHR ERP • Modules</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="modules">
+  <main class="module-hub glass fade-in">
+    <header class="hub-top">
+      <div class="page-user">
+        <img id="sessionAvatar" class="profile-avatar" src="" alt="User avatar" />
+        <div>
+          <h2 id="sessionUserName" class="top-name"></h2>
+          <p id="sessionUserRole" class="top-role"></p>
+        </div>
+      </div>
+      <div class="page-actions">
+        <input id="moduleSearch" class="search-input" placeholder="Search interface (e.g., payroll)" />
+        <label class="upload-chip">Upload Picture <input id="hubAvatarInput" type="file" accept="image/*" /></label>
+        <button id="logoutBtn" class="btn-link" type="button">Logout</button>
+      </div>
+    </header>
+    <section id="moduleGrid" class="module-grid"><a class="module-card" data-module-card="dashboard" href="dashboard.html"><h3>Dashboard</h3><p>Open Dashboard interface</p></a>
+<a class="module-card" data-module-card="approvals" href="approvals.html"><h3>Approvals</h3><p>Open Approvals interface</p></a>
+<a class="module-card" data-module-card="employees" href="employees.html"><h3>Employees</h3><p>Open Employees interface</p></a>
+<a class="module-card" data-module-card="recruitment" href="recruitment.html"><h3>Recruitment</h3><p>Open Recruitment interface</p></a>
+<a class="module-card" data-module-card="shifts" href="shifts.html"><h3>Shifts</h3><p>Open Shifts interface</p></a>
+<a class="module-card" data-module-card="attendance" href="attendance.html"><h3>Attendance</h3><p>Open Attendance interface</p></a>
+<a class="module-card" data-module-card="leaves" href="leaves.html"><h3>Leaves</h3><p>Open Leaves interface</p></a>
+<a class="module-card" data-module-card="payroll" href="payroll.html"><h3>Payroll</h3><p>Open Payroll interface</p></a>
+<a class="module-card" data-module-card="compliance" href="compliance.html"><h3>Compliance</h3><p>Open Compliance interface</p></a>
+<a class="module-card" data-module-card="incidents" href="incidents.html"><h3>Incidents</h3><p>Open Incidents interface</p></a>
+<a class="module-card" data-module-card="performance" href="performance.html"><h3>Performance</h3><p>Open Performance interface</p></a>
+<a class="module-card" data-module-card="settings" href="settings.html"><h3>Settings</h3><p>Open Settings interface</p></a></section>
+  </main>
+  <script src="auth.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

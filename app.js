@@ -6,9 +6,9 @@ const defaultState = {
 };
 
 const roleAccess = {
-  admin: ["dashboard", "approvals", "employees", "recruitment", "shifts", "attendance", "leaves", "payroll", "compliance", "incidents", "performance", "settings"],
-  "hr personnel": ["employees", "recruitment", "shifts", "attendance", "leaves", "payroll", "compliance", "incidents", "performance", "settings"],
-  supervisor: ["employees", "shifts", "attendance", "leaves", "incidents", "performance", "settings"]
+  admin: ["modules","dashboard","approvals","employees","recruitment","shifts","attendance","leaves","payroll","compliance","incidents","performance","settings"],
+  "hr personnel": ["modules","employees","recruitment","shifts","attendance","leaves","payroll","compliance","incidents","performance","settings"],
+  supervisor: ["modules","employees","shifts","attendance","leaves","incidents","performance","settings"]
 };
 
 const tableConfig = {
@@ -25,7 +25,8 @@ const tableConfig = {
 
 let state = loadState();
 let currentUser = null;
-let currentPage = document.body.dataset.page;
+const currentPage = document.body.dataset.page;
+let allowed = [];
 let pendingAvatar = "";
 
 function normalizeRole(role) {
@@ -34,6 +35,13 @@ function normalizeRole(role) {
   if (["hr personnel", "hr officer", "hr"].includes(value)) return "hr personnel";
   if (value === "supervisor") return "supervisor";
   return "hr personnel";
+}
+
+function prettyRole(role) {
+  const r = normalizeRole(role);
+  if (r === "admin") return "Admin";
+  if (r === "supervisor") return "Supervisor";
+  return "HR Personnel";
 }
 
 function loadState() { try { return { ...structuredClone(defaultState), ...(JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}")) }; } catch { return structuredClone(defaultState); } }
@@ -47,36 +55,36 @@ function applyTheme(t) { document.body.classList.toggle("dark-theme", t === "dar
 
 function setupAccessControl() {
   currentUser = getSessionUser();
-  const allowed = roleAccess[normalizeRole(currentUser?.role)] || roleAccess["hr personnel"];
-
-  document.querySelectorAll("[data-module-link]").forEach((link) => {
-    if (!allowed.includes(link.dataset.moduleLink)) link.remove();
-  });
+  allowed = roleAccess[normalizeRole(currentUser?.role)] || roleAccess["hr personnel"];
 
   if (!allowed.includes(currentPage)) {
-    window.location.href = `${allowed[0]}.html`;
+    window.location.href = "modules.html";
     return false;
   }
 
   document.querySelectorAll("[data-module-link]").forEach((link) => {
-    link.classList.toggle("active", link.dataset.moduleLink === currentPage);
+    if (!allowed.includes(link.dataset.moduleLink)) link.remove();
+    else link.classList.toggle("active", link.dataset.moduleLink === currentPage);
   });
+
+  document.querySelectorAll("[data-module-card]").forEach((card) => {
+    if (!allowed.includes(card.dataset.moduleCard)) card.remove();
+  });
+
   return true;
 }
 
 function updateProfileUI() {
   if (!currentUser) return;
   const prefs = getUserPrefs(currentUser.email);
-  const src = prefs.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=1f4aa9&color=fff`;
-  const nameEl = document.getElementById("sessionUser");
-  const navAvatar = document.getElementById("sessionAvatar");
-  const preview = document.getElementById("settingsAvatarPreview");
-  const themeSelect = document.getElementById("themeSelect");
-
+  const avatarSrc = prefs.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(currentUser.name)}&background=1f4aa9&color=fff`;
+  document.querySelectorAll("#sessionAvatar").forEach((el) => { el.src = avatarSrc; });
+  const nameEl = document.getElementById("sessionUserName");
+  const roleEl = document.getElementById("sessionUserRole");
   if (nameEl) nameEl.textContent = currentUser.name;
-  if (navAvatar) navAvatar.src = src;
-  if (preview) preview.src = src;
-  if (themeSelect) themeSelect.value = prefs.theme || "light";
+  if (roleEl) roleEl.textContent = prettyRole(currentUser.role);
+  const toggle = document.getElementById("themeToggle");
+  if (toggle) toggle.checked = (prefs.theme || "light") === "dark";
   applyTheme(prefs.theme || "light");
 }
 
@@ -133,7 +141,7 @@ function renderApprovals() {
 function renderPage() {
   if (currentPage === "dashboard") { renderMetrics(); renderCharts(); return; }
   if (currentPage === "approvals") { renderApprovals(); return; }
-  if (tableConfig[currentPage]) { renderTable(currentPage); }
+  if (tableConfig[currentPage]) renderTable(currentPage);
 }
 
 function bindForms() {
@@ -166,32 +174,48 @@ function bindForms() {
 
 function bindSettings() {
   const form = document.getElementById("settingsForm");
-  const avatarInput = document.getElementById("avatarInput");
+  const toggle = document.getElementById("themeToggle");
   const message = document.getElementById("settingsMessage");
   if (!form || !currentUser) return;
 
-  avatarInput?.addEventListener("change", () => {
-    const file = avatarInput.files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      pendingAvatar = String(e.target?.result || "");
-      const navAvatar = document.getElementById("sessionAvatar");
-      const preview = document.getElementById("settingsAvatarPreview");
-      if (navAvatar) navAvatar.src = pendingAvatar;
-      if (preview) preview.src = pendingAvatar;
-    };
-    reader.readAsDataURL(file);
+  toggle?.addEventListener("change", () => {
+    applyTheme(toggle.checked ? "dark" : "light");
   });
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const data = Object.fromEntries(new FormData(form).entries());
     const existing = getUserPrefs(currentUser.email);
-    saveUserPrefs(currentUser.email, { theme: data.theme, avatar: pendingAvatar || existing.avatar || "" });
+    saveUserPrefs(currentUser.email, { theme: toggle.checked ? "dark" : "light", avatar: existing.avatar || "" });
     updateProfileUI();
-    message.textContent = "Settings saved.";
+    message.textContent = "Preferences saved.";
     message.className = "message success";
+  });
+}
+
+function bindHub() {
+  const search = document.getElementById("moduleSearch");
+  const upload = document.getElementById("hubAvatarInput");
+  const cards = [...document.querySelectorAll("[data-module-card]")];
+  if (!search) return;
+
+  search.addEventListener("input", () => {
+    const term = search.value.trim().toLowerCase();
+    cards.forEach((card) => {
+      const txt = card.textContent.toLowerCase();
+      card.classList.toggle("hidden", term && !txt.includes(term));
+    });
+  });
+
+  upload?.addEventListener("change", () => {
+    const file = upload.files?.[0];
+    if (!file || !currentUser) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      pendingAvatar = String(e.target?.result || "");
+      saveUserPrefs(currentUser.email, { avatar: pendingAvatar });
+      updateProfileUI();
+    };
+    reader.readAsDataURL(file);
   });
 }
 
@@ -229,6 +253,7 @@ function init() {
   setupLogout();
   bindForms();
   bindSettings();
+  bindHub();
   bindButtons();
   renderPage();
 }

@@ -496,3 +496,119 @@ footer {
     padding: 20px;
   }
 }
+
+
+.page-top {
+  width: min(1240px, 94%);
+  margin: 16px auto 0;
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+}
+
+.page-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.top-name {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.top-role {
+  margin: 2px 0 0;
+  color: var(--text-muted);
+  font-size: 0.84rem;
+}
+
+.page-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.module-hub {
+  width: min(72vw, 1200px);
+  min-width: 60vw;
+  margin: 28px auto;
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-md);
+}
+
+.hub-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.search-input {
+  min-width: 260px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: var(--surface-strong);
+  color: var(--text);
+}
+
+.upload-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: rgba(111, 157, 255, 0.15);
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.upload-chip input { display: none; }
+
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.module-card {
+  display: block;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.module-card h3 { margin: 0 0 6px; }
+.module-card p { margin: 0; color: var(--text-muted); }
+
+.toggle-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+}
+
+.note { color: var(--text-muted); margin-top: 6px; }
+
+@media (max-width: 1100px) {
+  .module-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 860px) {
+  .module-hub { width: 94vw; min-width: 0; }
+  .module-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .hub-top, .page-top { flex-direction: column; align-items: flex-start; }
+}
