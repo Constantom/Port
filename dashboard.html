@@ -10,18 +10,18 @@
   <nav class="navbar glass">
     <a class="brand" href="dashboard.html">PharmaHR ERP</a>
     <div class="nav-links nav-scroll">
-        <a href="dashboard.html" data-module-link="dashboard" class="active">Dashboard</a>
-        <a href="approvals.html" data-module-link="approvals" class="">Approvals</a>
-        <a href="employees.html" data-module-link="employees" class="">Employees</a>
-        <a href="recruitment.html" data-module-link="recruitment" class="">Recruitment</a>
-        <a href="shifts.html" data-module-link="shifts" class="">Shifts</a>
-        <a href="attendance.html" data-module-link="attendance" class="">Attendance</a>
-        <a href="leaves.html" data-module-link="leaves" class="">Leaves</a>
-        <a href="payroll.html" data-module-link="payroll" class="">Payroll</a>
-        <a href="compliance.html" data-module-link="compliance" class="">Compliance</a>
-        <a href="incidents.html" data-module-link="incidents" class="">Incidents</a>
-        <a href="performance.html" data-module-link="performance" class="">Performance</a>
-        <a href="settings.html" data-module-link="settings" class="">Settings</a>
+      <a href="#dashboard" class="module-link" data-module-link="dashboard">Dashboard</a>
+      <a href="#approvals" class="module-link" data-module-link="approvals">Approvals</a>
+      <a href="#employees" class="module-link" data-module-link="employees">Employees</a>
+      <a href="#recruitment" class="module-link" data-module-link="recruitment">Recruitment</a>
+      <a href="#shifts" class="module-link" data-module-link="shifts">Shifts</a>
+      <a href="#attendance" class="module-link" data-module-link="attendance">Attendance</a>
+      <a href="#leaves" class="module-link" data-module-link="leaves">Leaves</a>
+      <a href="#payroll" class="module-link" data-module-link="payroll">Payroll</a>
+      <a href="#compliance" class="module-link" data-module-link="compliance">Compliance</a>
+      <a href="#incidents" class="module-link" data-module-link="incidents">Incidents</a>
+      <a href="#performance" class="module-link" data-module-link="performance">Performance</a>
+      <a href="#settings" class="module-link" data-module-link="settings">Settings</a>
     </div>
     <div class="nav-links">
       <div class="profile-pill">
@@ -33,7 +33,7 @@
   </nav>
 
   <main>
-    <section class="card glass fade-in">
+    <section class="card glass fade-in module-view" data-module="dashboard">
       <div class="section-head"><h2>Executive Dashboard (Admin Only)</h2><button class="secondary-btn" data-load="dashboard" type="button">Load Data</button></div>
       <div id="metrics" class="grid"></div>
       <div class="chart-grid">
@@ -42,7 +42,75 @@
         <article class="chart-card glass"><h3>Leave Status Overview</h3><canvas id="leaveDonutChart" width="520" height="260"></canvas></article>
       </div>
     </section>
+
+    <section class="card glass fade-in module-view" data-module="approvals">
+      <div class="section-head"><h2>Approval Center (Admin Only)</h2><button class="secondary-btn" data-load="approvals" type="button">Load Data</button></div>
+      <h3>Pending Leave Approvals</h3><table><thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th><th>Actions</th></tr></thead><tbody id="approvalsLeaveTable"></tbody></table>
+      <h3>Open Incident Cases</h3><table><thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th><th>Actions</th></tr></thead><tbody id="approvalsIncidentTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="employees">
+      <div class="section-head"><h2>Employees</h2><button class="secondary-btn" data-load="employees" type="button">Load Data</button></div>
+      <form id="employeeForm" class="form-grid"><input name="name" placeholder="Full Name" required /><input name="role" placeholder="Role" required /><input name="license" placeholder="License" /><input name="department" value="Pharmacy" required /><input name="hireDate" type="date" required /><select name="status" required><option>Active</option><option>Probation</option><option>On Leave</option><option>Suspended</option></select><button type="submit">Add Employee</button></form>
+      <table><thead><tr><th>Name</th><th>Role</th><th>License</th><th>Hire Date</th><th>Status</th><th>Delete</th></tr></thead><tbody id="employeesTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="recruitment">
+      <div class="section-head"><h2>Recruitment Pipeline</h2><button class="secondary-btn" data-load="recruitment" type="button">Load Data</button></div>
+      <form id="recruitForm" class="form-grid"><input name="candidate" placeholder="Candidate Name" required /><input name="position" placeholder="Position" required /><select name="stage" required><option>Applied</option><option>Screening</option><option>Interview</option><option>Offer</option><option>Hired</option><option>Rejected</option></select><button type="submit">Add Candidate</button></form>
+      <table><thead><tr><th>Candidate</th><th>Position</th><th>Stage</th><th>Delete</th></tr></thead><tbody id="recruitTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="shifts">
+      <div class="section-head"><h2>Shift Scheduling</h2><button class="secondary-btn" data-load="shifts" type="button">Load Data</button></div>
+      <form id="shiftForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="date" type="date" required /><select name="shift" required><option>Morning</option><option>Evening</option><option>Night</option><option>On-Call</option></select><input name="location" placeholder="Location" required /><button type="submit">Assign Shift</button></form>
+      <table><thead><tr><th>Employee</th><th>Date</th><th>Shift</th><th>Location</th><th>Delete</th></tr></thead><tbody id="shiftTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="attendance">
+      <div class="section-head"><h2>Attendance & Overtime</h2><button class="secondary-btn" data-load="attendance" type="button">Load Data</button></div>
+      <form id="attendanceForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="date" type="date" required /><input name="hoursWorked" type="number" min="0" step="0.5" placeholder="Hours" required /><input name="overtime" type="number" min="0" step="0.5" placeholder="Overtime" required /><button type="submit">Log Attendance</button></form>
+      <table><thead><tr><th>Employee</th><th>Date</th><th>Hours</th><th>Overtime</th><th>Delete</th></tr></thead><tbody id="attendanceTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="leaves">
+      <div class="section-head"><h2>Leave Management</h2><button class="secondary-btn" data-load="leaves" type="button">Load Data</button></div>
+      <form id="leaveForm" class="form-grid"><input name="employee" placeholder="Employee" required /><select name="type" required><option>Annual</option><option>Sick</option><option>Maternity/Paternity</option><option>Emergency</option><option>Unpaid</option></select><input name="start" type="date" required /><input name="end" type="date" required /><select name="status" required><option>Pending</option><option>Approved</option><option>Rejected</option></select><button type="submit">Submit Leave</button></form>
+      <table><thead><tr><th>Employee</th><th>Type</th><th>From</th><th>To</th><th>Status</th><th>Delete</th></tr></thead><tbody id="leaveTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="payroll">
+      <div class="section-head"><h2>Payroll</h2><button class="secondary-btn" data-load="payroll" type="button">Load Data</button></div>
+      <form id="payrollForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="month" type="month" required /><input name="basic" type="number" min="0" placeholder="Basic" required /><input name="allowance" type="number" min="0" placeholder="Allowances" required /><input name="deductions" type="number" min="0" placeholder="Deductions" required /><button type="submit">Run Payroll</button></form>
+      <table><thead><tr><th>Employee</th><th>Month</th><th>Gross</th><th>Deductions</th><th>Net</th><th>Delete</th></tr></thead><tbody id="payrollTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="compliance">
+      <div class="section-head"><h2>Compliance, Training & Certification</h2><button class="secondary-btn" data-load="compliance" type="button">Load Data</button></div>
+      <form id="complianceForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="module" placeholder="Module" required /><input name="expiry" type="date" required /><select name="status" required><option>Valid</option><option>Expiring Soon</option><option>Expired</option></select><button type="submit">Add Compliance Record</button></form>
+      <table><thead><tr><th>Employee</th><th>Module</th><th>Expiry</th><th>Status</th><th>Delete</th></tr></thead><tbody id="complianceTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="incidents">
+      <div class="section-head"><h2>Incidents & Disciplinary Cases</h2><button class="secondary-btn" data-load="incidents" type="button">Load Data</button></div>
+      <form id="incidentForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="date" type="date" required /><input name="incident" placeholder="Incident" required /><select name="resolution" required><option>Open</option><option>Under Review</option><option>Warning Issued</option><option>Resolved</option></select><button type="submit">Log Incident</button></form>
+      <table><thead><tr><th>Employee</th><th>Date</th><th>Incident</th><th>Resolution</th><th>Delete</th></tr></thead><tbody id="incidentTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="performance">
+      <div class="section-head"><h2>Performance Reviews</h2><button class="secondary-btn" data-load="performance" type="button">Load Data</button></div>
+      <form id="performanceForm" class="form-grid"><input name="employee" placeholder="Employee" required /><input name="reviewDate" type="date" required /><input name="score" type="number" min="1" max="5" placeholder="Score" required /><input name="notes" placeholder="Notes" required /><button type="submit">Record Review</button></form>
+      <table><thead><tr><th>Employee</th><th>Review Date</th><th>Score</th><th>Notes</th><th>Delete</th></tr></thead><tbody id="performanceTable"></tbody></table>
+    </section>
+
+    <section class="card glass fade-in module-view" data-module="settings">
+      <div class="section-head"><h2>My Settings</h2><button class="secondary-btn" data-load="settings" type="button">Load Data</button></div>
+      <form id="settingsForm" class="form-grid"><select name="theme" id="themeSelect" required><option value="light">Light Theme</option><option value="dark">Dark Theme</option></select><input type="file" id="avatarInput" accept="image/*" /><button type="submit">Save Settings</button></form>
+      <div class="settings-preview"><img id="settingsAvatarPreview" class="profile-avatar large" src="" alt="Avatar preview" /><p>Upload your profile picture and choose your preferred theme.</p></div>
+      <p id="settingsMessage" class="message"></p>
+    </section>
   </main>
+
   <footer><p>PharmaHR ERP Prototype • Local role-based prototype</p></footer>
   <script src="auth.js"></script>
   <script src="app.js"></script>

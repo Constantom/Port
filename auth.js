@@ -1,20 +1,6 @@
 const USERS_KEY = "pharma_hr_users";
 const SESSION_KEY = "pharma_hr_session";
 const PREFS_KEY = "pharma_hr_user_prefs";
-const PROTECTED_PAGES = [
-  "dashboard.html",
-  "approvals.html",
-  "employees.html",
-  "recruitment.html",
-  "shifts.html",
-  "attendance.html",
-  "leaves.html",
-  "payroll.html",
-  "compliance.html",
-  "incidents.html",
-  "performance.html",
-  "settings.html"
-];
 
 function normalizeRole(role) {
   const value = String(role || "").trim().toLowerCase();
@@ -28,7 +14,6 @@ function getUsers() { return JSON.parse(localStorage.getItem(USERS_KEY) || "[]")
 function saveUsers(users) { localStorage.setItem(USERS_KEY, JSON.stringify(users)); }
 function getSessionUser() { return JSON.parse(localStorage.getItem(SESSION_KEY) || "null"); }
 function setSessionUser(user) { localStorage.setItem(SESSION_KEY, JSON.stringify(user)); }
-function clearSessionUser() { localStorage.removeItem(SESSION_KEY); }
 
 function getUserPrefs(email) {
   const map = JSON.parse(localStorage.getItem(PREFS_KEY) || "{}");
@@ -43,10 +28,9 @@ function applyThemeFromSession() {
 }
 
 function requireAuth() {
-  const path = window.location.pathname.split("/").pop();
-  if (!PROTECTED_PAGES.includes(path)) return;
-  const session = getSessionUser();
-  if (!session) window.location.href = "login.html";
+  const page = window.location.pathname.split("/").pop();
+  if (page !== "dashboard.html") return;
+  if (!getSessionUser()) window.location.href = "login.html";
 }
 
 function bindRegister() {
@@ -57,7 +41,7 @@ function bindRegister() {
     event.preventDefault();
     const data = Object.fromEntries(new FormData(form).entries());
     const users = getUsers();
-    if (users.some((user) => user.email === data.email)) {
+    if (users.some((u) => u.email === data.email)) {
       message.textContent = "This email is already registered.";
       message.className = "message error";
       return;
@@ -91,17 +75,7 @@ function bindLogin() {
   });
 }
 
-function bindLogoutPublic() {
-  const btn = document.getElementById("logoutBtn");
-  if (!btn) return;
-  btn.addEventListener("click", () => {
-    clearSessionUser();
-    window.location.href = "login.html";
-  });
-}
-
 applyThemeFromSession();
 requireAuth();
 bindRegister();
 bindLogin();
-bindLogoutPublic();

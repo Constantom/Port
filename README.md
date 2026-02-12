@@ -2,43 +2,40 @@
 
 This project is a browser-based ERP focused on HR operations in a pharmacy setting.
 
-## Page Structure (Independent Routing)
+## Routing Model (Single Dashboard Page)
 
-Public pages:
-- `index.html` - Landing page
-- `register.html` - Register
-- `login.html` - Login
+All HR modules now live inside **`dashboard.html`** and are routed using JavaScript hash routes and top navbar links.
 
-Protected module pages (independent interfaces routed by top navbar links):
-- `dashboard.html` (admin only)
-- `approvals.html` (admin only)
-- `employees.html`
-- `recruitment.html`
-- `shifts.html`
-- `attendance.html`
-- `leaves.html`
-- `payroll.html`
-- `compliance.html`
-- `incidents.html`
-- `performance.html`
-- `settings.html`
+Example routes:
+- `dashboard.html#dashboard`
+- `dashboard.html#employees`
+- `dashboard.html#recruitment`
+- `dashboard.html#shifts`
+- `dashboard.html#attendance`
+- `dashboard.html#leaves`
+- `dashboard.html#payroll`
+- `dashboard.html#compliance`
+- `dashboard.html#incidents`
+- `dashboard.html#performance`
+- `dashboard.html#approvals`
+- `dashboard.html#settings`
 
 ## What was fixed
 
-- Dark theme now applies correctly per user after login and on protected pages.
-- Profile image update now reflects in the top navbar after choosing/saving avatar.
-- Navigation now uses independent pages (not hidden sections), and navbar links route directly between module pages.
+- Dark theme now applies correctly per user after login and on dashboard load.
+- Profile image updates in Settings now reflect at top navbar near the user name.
+- Module navigation is back inside `dashboard.html` and routed via JavaScript, not independent pages.
 
 ## Access Control
 
-Roles are saved and normalized in auth:
-- **Admin**: all pages (including Dashboard + Approvals)
-- **HR Personnel**: operational pages + Settings (no Dashboard/Approvals)
-- **Supervisor**: supervision pages + Settings (no Dashboard/Approvals)
+Roles are normalized and enforced in dashboard routing:
+- **Admin**: all modules (including Dashboard + Approvals)
+- **HR Personnel**: operational modules + Settings (no Dashboard/Approvals)
+- **Supervisor**: supervision modules + Settings (no Dashboard/Approvals)
 
 ## Data & Preferences
 
-- HR data storage: `localStorage` key `pharma_hr_erp`
+- HR data: `localStorage` key `pharma_hr_erp`
 - Auth users: `pharma_hr_users`
 - Session: `pharma_hr_session`
 - User preferences (theme/avatar): `pharma_hr_user_prefs`
